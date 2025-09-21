@@ -12,6 +12,8 @@
   <meta property="og:image" content="./preview.png">
   <meta name="theme-color" content="#fbff00">
   <title>Solo para ti 🌼</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="./style.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
@@ -779,8 +781,8 @@
       const introScreen = document.getElementById('introScreen');
       const music = document.getElementById('backgroundMusic');
       
-      // Establecer el volumen al 40%
-      music.volume = 0.4;
+      // Inicializar el volumen en 0 para el fade-in
+      music.volume = 0;
       
       // Desactivar la clase container inicialmente para evitar que las animaciones comiencen
       document.body.classList.add('container');
@@ -793,8 +795,27 @@
           this.style.transform = 'scale(1.05)';
         }, 100);
         
-        // Reproducir audio
-        music.play().catch(e => console.log('No se pudo reproducir el audio:', e));
+        // Reproducir audio con fade-in
+        music.play().then(() => {
+          // Efecto de fade-in para el audio
+          const targetVolume = 0.4; // 40%
+          const fadeInDuration = 3000; // 3 segundos para el fade-in
+          const fadeInStep = 0.02; // Incremento de volumen en cada paso
+          const fadeInInterval = fadeInDuration * fadeInStep / targetVolume;
+          
+          // Aumentar gradualmente el volumen
+          const fadeInIntervalId = setInterval(() => {
+            // Si el volumen actual es menor que el objetivo, incrementar
+            if (music.volume < targetVolume) {
+              // Incrementar volumen y redondear para evitar problemas de precisión
+              music.volume = Math.min(targetVolume, Math.round((music.volume + fadeInStep) * 100) / 100);
+            } else {
+              // Detener el intervalo cuando se alcanza el volumen objetivo
+              clearInterval(fadeInIntervalId);
+              console.log('🎵 Audio fade-in completado');
+            }
+          }, fadeInInterval);
+        }).catch(e => console.log('No se pudo reproducir el audio:', e));
         
         // Animación de fadeout para la pantalla de introducción
         introScreen.classList.add('hidden');
