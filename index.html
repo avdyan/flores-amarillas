@@ -341,12 +341,9 @@
 
   <!-- Contenido original de flores.html -->
   <div id="flowerContent">
-    <!-- Sistema de audio adaptativo: primero carga baja calidad, luego alta calidad -->
+    <!-- Audio de fondo -->
     <audio id="backgroundMusic" preload="auto" loop volume="0.4">
-      <!-- Versión de baja calidad que carga primero (más pequeña y rápida) -->
-      <source src="sound-low.m4a" type="audio/mpeg" id="lowQualitySource">
-      <!-- Versiones de alta calidad que cargarán después -->
-      <source src="sound.m4a" type="audio/aac" id="highQualitySource1">
+      <source src="sound.m4a" type="audio/aac">
       Tu navegador no soporta la reproducción de audio.
     </audio>
   <div class="night"></div>
@@ -782,68 +779,8 @@
       const introScreen = document.getElementById('introScreen');
       const music = document.getElementById('backgroundMusic');
       
-      // Variables para el sistema de audio adaptativo
-      let highQualityLoaded = false;
-      let isPlaying = false;
-      let currentTime = 0;
-      let highQualityAudio = new Audio();
-      
       // Establecer el volumen al 40%
       music.volume = 0.4;
-      
-      
-      // Función para cargar la versión de alta calidad en segundo plano
-      function loadHighQualityAudio() {
-        // Determinar qué formato de alta calidad usar según el navegador
-        if (highQualityAudio.canPlayType('audio/aac')) {
-          highQualityAudio.src = 'sound.m4a';
-        } else {
-          // Si no hay soporte para formatos de alta calidad, no cambiamos
-          return;
-        }
-
-        highQualityAudio.loop = true;
-        highQualityAudio.volume = music.volume;
-        highQualityAudio.preload = 'auto';
-        
-        // Cuando el audio de alta calidad está listo para reproducirse
-        highQualityAudio.addEventListener('canplaythrough', function() {
-          if (!highQualityLoaded && isPlaying) {
-            highQualityLoaded = true;
-            
-            // Guardar la posición actual y el estado de reproducción
-            currentTime = music.currentTime;
-            
-            // Configurar el audio de alta calidad para que empiece desde el mismo punto
-            highQualityAudio.currentTime = currentTime;
-            
-            // Fade-out del audio de baja calidad y fade-in del de alta calidad
-            const fadeInterval = setInterval(function() {
-              // Reducir volumen del de baja calidad
-              if (music.volume > 0.1) {
-                music.volume -= 0.1;
-              } else {
-                music.pause();
-              }
-              
-              // Aumentar volumen del de alta calidad
-              if (highQualityAudio.volume < 0.4) {
-                highQualityAudio.volume += 0.1;
-              } else {
-                clearInterval(fadeInterval);
-              }
-            }, 100);
-            
-            // Iniciar reproducción del audio de alta calidad
-            highQualityAudio.play();
-            
-            console.log('🎵 Cambiado a audio de alta calidad');
-          }
-        }, { once: true });
-        
-        // Iniciar la carga del audio de alta calidad
-        highQualityAudio.load();
-      }
       
       // Desactivar la clase container inicialmente para evitar que las animaciones comiencen
       document.body.classList.add('container');
@@ -856,12 +793,8 @@
           this.style.transform = 'scale(1.05)';
         }, 100);
         
-        // Reproducir audio de baja calidad inmediatamente
-        music.play().then(() => {
-          isPlaying = true;
-          // Iniciar la carga del audio de alta calidad en segundo plano
-          loadHighQualityAudio();
-        }).catch(e => console.log('No se pudo reproducir el audio:', e));
+        // Reproducir audio
+        music.play().catch(e => console.log('No se pudo reproducir el audio:', e));
         
         // Animación de fadeout para la pantalla de introducción
         introScreen.classList.add('hidden');
