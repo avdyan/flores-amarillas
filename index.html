@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>FLORES</title>
+</head>
+<body>
+    <!-- Loading screen -->
+    <div class="loading-screen" id="loading">
+        <div class="loading-circle"></div>
+        <div class="loading-text">Preparando algo especial...</div>
+    </div>
+
+    <!-- Particle background -->
+    <div class="particles-container" id="particles"></div>
+    
+    <!-- Custom cursor -->
+    <div class="custom-cursor" id="cursor">
+        <div class="cursor-dot"></div>
+    </div>
+
+    <!-- Main content -->
+    <div class="main-content" id="mainContent">
+        <div class="greetings fade-in">
+            <span>H</span>
+            <span>O</span>
+            <span>L</span>
+            <span>A</span>
+        </div>
+        
+        <div class="greetings spacer">
+            <span class="mystery-char">✨</span>
+            <span class="mystery-char">🌟</span>
+            <span class="mystery-char">💫</span>
+            <span class="mystery-char">⭐</span>
+            <span class="mystery-char">✨</span>
+            <span class="mystery-char">🌟</span>
+        </div>
+        
+        <div class="description fade-in-delayed">
+            <span class="typewriter">SON PARA TI ❤️</span>
+        </div>
+        
+        <div class="button fade-in-delayed-2">
+            <button id="mysteryButton" class="mystery-button">
+                <span class="button-text">Descubre la Sorpresa</span>
+                <div class="button-ripple"></div>
+                <div class="button-glow"></div>
+            </button>
+        </div>
+
+        <!-- Floating hearts -->
+        <div class="floating-elements">
+            <div class="heart">💛</div>
+            <div class="heart">🌻</div>
+            <div class="heart">💛</div>
+            <div class="heart">🌻</div>
+            <div class="heart">💛</div>
+        </div>
+    </div>
+
+    <!-- Background ambience -->
+    <div class="ambient-light"></div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
